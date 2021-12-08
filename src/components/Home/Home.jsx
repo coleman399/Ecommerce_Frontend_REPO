@@ -4,12 +4,11 @@ import './App.css';
 
 const homePage = (props) => {
         return (
-            <div className="container-fluid">
+                <div className="container-fluid">
                 <br/>
                 <div className="row">
                     <div className="col-1"/>
                     <div className="col-10">
-                        
                     </div>
                     <div className="col-1"/>
                 </div>
@@ -20,12 +19,12 @@ const homePage = (props) => {
                 <div className="container">
                     <div className="row">
                         
-                        <br/>
+                    <br/>
                     </div>
                     <br/>
+                </div>
                 <div className="row">
                     <div className="col-1">
-                        <CommentSection {...this.state} getBackendData={this.getBackendData} postBackendData={this.postBackendData}/>
                     </div>
                     </div>
                 </div>
