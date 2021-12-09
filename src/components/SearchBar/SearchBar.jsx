@@ -1,20 +1,35 @@
-import React from "react";
+import React, { Component } from 'react';
+import './SearchBar.css'
 
-const SearchBar = (props) => {
-  return (
-    <div>
-      {/* <InputGroup className="mb-3">
-        <FormControl
-          placeholder="Recipient's username"
-          aria-label="Recipient's username"
-          aria-describedby="basic-addon2"
-        />
-        <Button variant="outline-secondary" id="button-addon2">
-          Button
-        </Button>
-      </InputGroup> */}
-    </div>
-  );
-};
+class SearchBar extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            search: ''
+        }
+    }
+
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    handleSubmit() {
+        this.props.startSearch(this.state.search)
+        this.setState({
+            search: ''
+        })
+    }
+
+    render() {
+        return (
+            <div className = "searchbar">
+                <input value = {this.state.search} name = "search" onChange = {this.handleChange}></input>
+                <button className = "searchbutton" onClick = {() => this.handleSubmit(this.state.search)}>&#128064;</button>
+            </div>
+        )
+    }
+}
 
 export default SearchBar;
