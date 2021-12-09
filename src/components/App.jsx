@@ -8,10 +8,9 @@ import SearchBar from './SearchBar/SearchBar';
 import SellPlant from './SellPlant/SellPlant';
 import ShoppingCart from './ShoppingCart/ShoppingCart';
 import {
-    BrowserRouter as Router,
+    BrowserRouter,
     Routes,
     Route,
-    Link
 } from "react-router-dom";
 
 class App extends Component {
@@ -32,13 +31,14 @@ class App extends Component {
 // }
     render() { 
         return ( 
-            <div>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<Home/>}/>
-                    </Routes>
-                </Router>
-            </div>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Login />} />
+                    <Route path="/home" element={<Home NavBar={<NavBar />} SearchBar={<SearchBar />} ShoppingCart= {<ShoppingCart />} SellPlant={<SellPlant />}/>}/>
+                    <Route path="/register" element={<Register />}/>
+                    <Route path="*" element={<NotFound />}/>
+                </Routes>
+            </BrowserRouter>
          );
     }
 }
