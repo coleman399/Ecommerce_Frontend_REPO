@@ -1,44 +1,40 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
-import Register from '../Register/Register';
+import { Form } from 'react-bootstrap';
+import axios from 'axios';
 
-const Login = (props) => {
-    //[useState] of form to submit to backend  for login from Login{props}
-    var user = await axios.get('https//localhost:44394/api/')
-
-
-    if (logIn==True) () => {
-    const [userEmail, setUserEmail] = useState()
+const LogInUser = (props) => {
+    const [userName, setUserName] = useState()
     const [userPassword, setUserPassword] = useState()
-    const handleSubmit = (event) => {
+    
+    const handleSubmit = async event => {
         event.preventDefault();
-        props.login
+        await axios ({
+            method: 'POST',
+            url: "https://localhost:44394/api/authentication/login",
+            data: { 
+                username: userName,
+                password: userPassword
+            },
+
+        }).then(response => localStorage.setItem('token', response.data.token));
+        window.location.href = "/Home";
+    };
 
     const handleChange = (event) => {
-        setUserEmail(()=>({
-            [event.target.name]:event.target.value
-        }));
-        setUserPassword(()=>({
-            [event.target.name]:event.target.value
-        }));
+        setUserName(event.target.value);
+        setUserPassword(event.target.value);
     }
-    }
-    //if logged in redirect to main page if not logged in present form...
     
-
-    }
     return ( 
-        <div>
-            <h1>Welcome</h1>
-            <form>
-                <input onChange = {handleChange} type ="text" name="userEmail" id ="userEmail" class = "email">Email</input>
-                <input onChange = {handleChange} type= "text" name="userPassword" id ="userPassword" class ="userPassword">Password</input>
-                <button onSubmit = {handleSubmit}>Login</button>
-                <button Link = "src\components\Register\Register.jsx" >Register Here</button>
-            </form>
-        </div>
-
+            <Form className="LogIn" onSubmit={handleSubmit()}>
+                <Form.Group>
+                  <Form.Label>Login</Form.Label>
+                    <Form.Control onChange={handleChange()} type="text"/>
+                      <Form.Text className="text">PLEASE ENTER USER NAME</Form.Text>
+                      <Form.Text className="text">PLEASE ENTER PASSWORD</Form.Text>
+                </Form.Group>
+            </Form>
      );
 }
  
-export default Login;
+export default LogInUser;

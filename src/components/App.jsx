@@ -7,40 +7,89 @@ import NotFound from './NotFound/NotFound'
 import SearchBar from './SearchBar/SearchBar';
 import SellPlant from './SellPlant/SellPlant';
 import ShoppingCart from './ShoppingCart/ShoppingCart';
+import jwt_decode from "jwt-decode";
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.css';
 import {
     BrowserRouter,
     Routes,
     Route,
+    Navigate
 } from "react-router-dom";
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = { }
+        this.state = {
+            user: "",
+        }
     }
-// componentDidMount() {
-//     const jwt = localStorage.getItem('token');
-//     try{
-//         const user = jwtDecode(jwt);
-//         this.setState({
-//             user
-//         });
-//     } catch {
-        
-//     }
-// }
-    render() { 
+
+    logout = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/";
+    }
+
+    registerUser = async (user) => {await axios({
+        method: "POST",
+        url: 'https://localhost:44394/api/authentication',
+        data: {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            password: user.password,
+            email: user.email,
+            phonenumber: user.phonenumber
+        },
+    });
+    console.log(user)
+    }
+
+    getUser = async (user) => {
+        const jwtToken = localStorage.getItem("token");
+        var results = await axios({
+        method: 'GET',
+        url: 'https://localhost:44394/api/examples/user/',
+        headers: {Authorization: `Bearer ${jwtToken}`},
+        });
+    console.log(results)
+    }
+    
+    componentDidMount() {
+        const jwtToken = localStorage.getItem("token");
+        try {
+            const user = jwt_decode(jwtToken);
+            this.setState({
+                user
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+    render() {
+        const user = this.state.user;
         return ( 
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/home" element={<Home NavBar={<NavBar />} SearchBar={<SearchBar />} ShoppingCart= {<ShoppingCart />} SellPlant={<SellPlant />}/>}/>
+                    <Route path="/home" element={() => {
+                        if (!user){
+                            return <Navigate to="/login"/>
+                        } else {
+                            return <Home user={user}/>
+                        }
+                    }}
+                    />
+                    <Route path="/home" element={<Home NavBar={<NavBar />} registerUser={this.registerUser} SearchBar={<SearchBar />} ShoppingCart= {<ShoppingCart />} SellPlant={<SellPlant />}/>}/>
                     <Route path="/register" element={<Register />}/>
+                    <Route path="/login" element={<Login registerUser={this.registerUser}/>}/>
+                    <Route path="/logout">{this.logout}</Route>
                     <Route path="*" element={<NotFound />}/>
                 </Routes>
             </BrowserRouter>
-         );
-    }
+        )
+    }   
 }
+
  
 export default App;

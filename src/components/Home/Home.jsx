@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import Register from '../Register/Register';
 
 const Home = (props) => {
   return (
@@ -6,7 +7,9 @@ const Home = (props) => {
       {/* Nav container to take up all of the top */}
       <div className="container">
         <div className="row">
-          <nav className="col-lg-12"></nav>
+          <nav className="col-lg-12">
+              <Register props={props}/>
+          </nav>
         </div>
       </div>
       {/* Plant container for product info to take up 1/3 of the screen */}
