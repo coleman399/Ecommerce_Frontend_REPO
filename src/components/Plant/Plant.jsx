@@ -6,12 +6,12 @@ function Plant(props) {
       <div className="row">
         <div className="col-lg-6">
           <div>
-            <h4>Name: Plant</h4>
-            <h4>Price: 1</h4>
-            <h4>Description:</h4>
-            <h4>Category:</h4>
+            <h4>Name: {props.plantName}</h4>
+            <h4>Price: {props.plantPrice}</h4>
+            <h4>Description: {props.plantDescription}</h4>
+            <h4>Category: {props.plantCategory}</h4>
             <h4>Average Rating:</h4>
-            <h4>Reviews:</h4>
+            <h4>Reviews: {props.plantReview}</h4>
           </div>
           <form>
             <button type="submit">Leave a review?</button>
@@ -94,3 +94,4 @@ function Plant(props) {
 }
 
 export default Plant;
+
