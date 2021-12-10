@@ -1,5 +1,7 @@
 import React from "react";
 import Register from '../Register/Register';
+import Plant from "../Plant/Plant";
+import NavBar from "../NavBar/NavBar";
 
 const Home = (props) => {
   return (
@@ -8,16 +10,19 @@ const Home = (props) => {
       <div className="container">
         <div className="row">
           <nav className="col-lg-12">
-              <Register props={props}/>
+              <NavBar/>
           </nav>
         </div>
       </div>
-      {/* Plant container for product info to take up 1/3 of the screen */}
+      {/* Plant container for product info to take up 1/2 of the screen */}
       <div className="container">
         <div className="row">
-          <div className="col-lg-4"></div>
-          <div className="col-lg-4"></div>
-          <div className="col-lg-4"></div>
+          <div className="col-lg-6">
+            <Plant/>
+          </div>
+          <div className="col-lg-6">
+            <Plant/>
+          </div>
         </div>
       </div>
     </div>

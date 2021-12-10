@@ -4,7 +4,7 @@ function Plant(props) {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-lg-4">
+        <div className="col-lg-6">
           <div>
             <h4>Name: Plant</h4>
             <h4>Price: 1</h4>
