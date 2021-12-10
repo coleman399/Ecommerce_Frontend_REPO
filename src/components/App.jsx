@@ -11,7 +11,7 @@ import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import {
-    BrowserRouter,
+    BrowserRouter as Router,
     Routes,
     Route,
     Navigate
@@ -30,7 +30,7 @@ class App extends Component {
         window.location.href = "/";
     }
 
-    registerUser = async (user) => {await axios({
+    registerUser = async (user) => {await axios.get({
         method: "POST",
         url: 'https://localhost:44394/api/authentication',
         data: {
@@ -48,7 +48,7 @@ class App extends Component {
     getUser = async (user) => {
         const jwtToken = localStorage.getItem("token");
         var results = await axios({
-        method: 'GET',
+        method: 'get',
         url: 'https://localhost:44394/api/examples/user/',
         headers: {Authorization: `Bearer ${jwtToken}`},
         });
@@ -68,15 +68,14 @@ class App extends Component {
     }
     
     render() {
-        const user = this.state.user;
-        return ( 
-            <BrowserRouter>
+        return (
+            <Router>
                 <Routes>
                     <Route path="/home" element={() => {
-                        if (!user){
+                        if (!this.state.user){
                             return <Navigate to="/login"/>
                         } else {
-                            return <Home user={user}/>
+                            return <Home user={this.state.user}/>
                         }
                     }}
                     />
@@ -86,7 +85,7 @@ class App extends Component {
                     <Route path="/logout">{this.logout}</Route>
                     <Route path="*" element={<NotFound />}/>
                 </Routes>
-            </BrowserRouter>
+            </Router>
         )
     }   
 }
