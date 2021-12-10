@@ -30,7 +30,7 @@ class App extends Component {
         window.location.href = "/";
     }
 
-    registerUser = async (user) => {await axios.get({
+    registerUser = async (user) => {await axios ({
         method: "POST",
         url: 'https://localhost:44394/api/authentication',
         data: {
