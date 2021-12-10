@@ -10,10 +10,10 @@ import Container from 'react-bootstrap/Container'
 const NavBar = ({ user }) => {
   return (
     <div>
+      <Navbar bg="light" expand="lg">
       <SearchBar />
       <ShoppingCart />
       <SellPlant />
-      <Navbar bg="light" expand="lg">
         <Container>
           <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -25,29 +25,6 @@ const NavBar = ({ user }) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {user && <h4>Welcome {user.username}</h4>}
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        {!user && (
-          <React.Fragment>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-            <li>
-              <Link to="login">Log in</Link>
-            </li>
-          </React.Fragment>
-        )}
-        {user && (
-          <React.Fragment>
-            <li>
-              <Link to="/logout">Log out</Link>
-            </li>
-          </React.Fragment>
-        )}
-      </ul>
     </div>
   );
 };
