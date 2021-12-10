@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import Login from './Login/Login';
 import Register from './Register/Register';
 import Home from './Home/Home';
-import NavBar from './NavBar/NavBar';
-import NotFound from './NotFound/NotFound'
-import SearchBar from './SearchBar/SearchBar';
-import SellPlant from './SellPlant/SellPlant';
-import ShoppingCart from './ShoppingCart/ShoppingCart';
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -14,7 +9,6 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Navigate
 } from "react-router-dom";
 
 class App extends Component {
@@ -75,14 +69,12 @@ class App extends Component {
                         !this.state.user ?
                              <Login registerUser={this.registerUser}/>
                         :
-                            <Home user={this.state.user}/>
-                        
+                            <Home user={this.state.user}/>       
                     }
                     />
-                    <Route path="/home" element={<Home registerUser={this.registerUser}/>}/>
-                    <Route path="/register" element={<Register />}/>
-                    <Route path="/login" element={<Login registerUser={this.registerUser}/>}/>
-                    <Route path="/logout"></Route>
+                    <Route path="/home" element={<Home getUser={this.getUser}/>}/>
+                    <Route path="/register" element={<Register registerUser={this.registerUser}/>}/>
+                    <Route path="/login" element={<Login />}/>                  
                     {/* <Route path="*" element={<NotFound />}/> */}
                 </Routes>
             </Router>

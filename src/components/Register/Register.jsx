@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 
 const Register = (props) => {
@@ -36,6 +36,27 @@ const Register = (props) => {
                   <Form.Label>First Name</Form.Label>
                     <Form.Control onChange={e => setFirstName(e.target.value)} type="text" required />
                 </Form.Group>
+                <Form.Group controlId="lastname">
+                  <Form.Label>Last Name</Form.Label>
+                    <Form.Control onChange={e => setLastName(e.target.value)} type="text" required />
+                </Form.Group>
+                <Form.Group controlId="username">
+                  <Form.Label>User Name</Form.Label>
+                    <Form.Control onChange={e => setUserName(e.target.value)} type="text" required />
+                </Form.Group>
+                <Form.Group controlId="password">
+                  <Form.Label>Password</Form.Label>
+                    <Form.Control onChange={e => setPassword(e.target.value)} type="text" required />
+                </Form.Group>
+                <Form.Group controlId="email">
+                  <Form.Label>Email</Form.Label>
+                    <Form.Control onChange={e => setEmail(e.target.value)} type="text" required />
+                </Form.Group>
+                <Form.Group controlId="phonenumber">
+                  <Form.Label>Phone Number</Form.Label>
+                    <Form.Control onChange={e => setPhonenumber(e.target.value)} type="text" required />
+                </Form.Group>
+                <Button onSubmit={handleSubmit} type="submit">Submit</Button>
             </Form>
         </div>
      );
