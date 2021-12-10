@@ -21,7 +21,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: "",
+            user: null,
         }
     }
 
@@ -60,7 +60,7 @@ class App extends Component {
         try {
             const user = jwt_decode(jwtToken);
             this.setState({
-                user
+                user:user
             })
         } catch (error) {
             console.log(error);
@@ -71,19 +71,19 @@ class App extends Component {
         return (
             <Router>
                 <Routes>
-                    <Route path="/home" element={() => {
-                        if (!this.state.user){
-                            return <Navigate to="/login"/>
-                        } else {
-                            return <Home user={this.state.user}/>
-                        }
-                    }}
+                    <Route exact path="/" element={
+                        !this.state.user ?
+                             <Login registerUser={this.registerUser}/>
+                        :
+                            <Home user={this.state.user}/>
+                        
+                    }
                     />
-                    <Route path="/home" element={<Home NavBar={<NavBar />} registerUser={this.registerUser} SearchBar={<SearchBar />} ShoppingCart= {<ShoppingCart />} SellPlant={<SellPlant />}/>}/>
+                    <Route path="/home" element={<Home registerUser={this.registerUser}/>}/>
                     <Route path="/register" element={<Register />}/>
                     <Route path="/login" element={<Login registerUser={this.registerUser}/>}/>
-                    <Route path="/logout">{this.logout}</Route>
-                    <Route path="*" element={<NotFound />}/>
+                    <Route path="/logout"></Route>
+                    {/* <Route path="*" element={<NotFound />}/> */}
                 </Routes>
             </Router>
         )

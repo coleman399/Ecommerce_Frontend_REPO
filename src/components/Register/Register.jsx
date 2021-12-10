@@ -34,7 +34,7 @@ const Register = (props) => {
             <Form className="Register" onSubmit={handleSubmit}>
                 <Form.Group controlId="firstname">
                   <Form.Label>First Name</Form.Label>
-                    <Form.Control onChange={e => setFirstName(e.target.value)} type="text" value={firstname} required />
+                    <Form.Control onChange={e => setFirstName(e.target.value)} type="text" required />
                 </Form.Group>
             </Form>
         </div>

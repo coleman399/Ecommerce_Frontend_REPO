@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
 
-const LogInUser = (props) => {
+const Login = (props) => {
     const [userName, setUserName] = useState()
     const [userPassword, setUserPassword] = useState()
     
@@ -26,10 +26,10 @@ const LogInUser = (props) => {
     }
     
     return ( 
-            <Form className="LogIn" onSubmit={handleSubmit()}>
+            <Form className="LogIn" onSubmit={handleSubmit}>
                 <Form.Group>
                   <Form.Label>Login</Form.Label>
-                    <Form.Control onChange={handleChange()} type="text"/>
+                    <Form.Control onChange={handleChange} type="text"/>
                       <Form.Text className="text">PLEASE ENTER USER NAME</Form.Text>
                       <Form.Text className="text">PLEASE ENTER PASSWORD</Form.Text>
                 </Form.Group>
@@ -37,4 +37,4 @@ const LogInUser = (props) => {
      );
 }
  
-export default LogInUser;
+export default Login;
