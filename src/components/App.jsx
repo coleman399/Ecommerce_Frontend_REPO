@@ -26,7 +26,7 @@ class App extends Component {
     }
 
     logout = () => {
-        localStorage.removeItem("token");
+        localStorage.clear();
         window.location.href = "/";
     }
 
@@ -71,6 +71,7 @@ class App extends Component {
         return (
             <Router>
                 <Routes>
+                    {console.log(this.state.user)}
                     <Route path="/home" element={() => {
                         if (!this.state.user){
                             return <Navigate to="/login"/>
