@@ -33,29 +33,29 @@ class App extends Component {
             username: user.username,
             password: user.password,
             email: user.email,
-            phonenumber: user.phonenumber
+            phonenumber: user.phonenumber,
+            shoppingcartid: user.shoppingcartid
         },
     });
     console.log(user)
     }
 
-    getUser = async (user) => {
+    getUser = async () => {
         const jwtToken = localStorage.getItem("token");
         var results = await axios({
-        method: 'get',
-        url: 'https://localhost:44394/api/examples/user/',
-        headers: {Authorization: `Bearer ${jwtToken}`},
+            method: 'GET',
+            url: 'https://localhost:44394/api/examples/user',
+            headers: {Authorization: `Bearer ${jwtToken}`},
         });
-    console.log(results)
+        this.setState({
+            user: results.data
+        })
+        console.log(results.data)
     }
     
     componentDidMount() {
-        const jwtToken = localStorage.getItem("token");
         try {
-            const user = jwt_decode(jwtToken);
-            this.setState({
-                user:user
-            })
+            this.getUser();
         } catch (error) {
             console.log(error);
         }
@@ -69,10 +69,10 @@ class App extends Component {
                         !this.state.user ?
                              <Login registerUser={this.registerUser}/>
                         :
-                            <Home user={this.state.user}/>       
+                            <Home logout={this.logout} getUser={this.getUser} user={this.state.user}/>       
                     }
                     />
-                    <Route path="/home" element={<Home getUser={this.getUser}/>}/>
+                    <Route path="/home" element={<Home getUser={this.getUser} user={this.state.user} logout={this.logout}/>}/>
                     <Route path="/register" element={<Register registerUser={this.registerUser}/>}/>
                     <Route path="/login" element={<Login />}/>                  
                     {/* <Route path="*" element={<NotFound />}/> */}

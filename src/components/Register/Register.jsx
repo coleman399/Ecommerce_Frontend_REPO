@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const Register = (props) => {
     const [firstname, setFirstName] = useState()
@@ -9,24 +11,51 @@ const Register = (props) => {
     const [password, setPassword] = useState()
     const [email, setEmail] = useState()
     const [phonenumber, setPhonenumber] = useState()
-    let user = {
-        firstname: firstname,
-        lastname: lastname,
-        username: username,
-        password: password,
-        email: email,
-        phonenumber: phonenumber
+    const [shoppingCartId, setShoppingCartId] = useState()
+    const navigate = useNavigate()
+
+    const postShoppingCart = async () => {
+      var results = await axios ({
+        method : "POST",
+        url : "https://localhost:44394/api/shoppingcart",
+        data: {
+          productId: null,
+        }
+      })
+      console.log(results.data.shoppingCartId);
+      setShoppingCartId(results.data.shoppingCartId);  
     }
+    useEffect(() => {
+      postShoppingCart();
+    },[]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.registerUser(user);
-        setFirstName("");
-        setLastName("");
-        setUserName("");
-        setPassword("");
-        setEmail("");
-        setPhonenumber("");
+        try{
+          let user = {
+            firstname: firstname,
+            lastname: lastname,
+            username: username,
+            password: password,
+            email: email,
+            phonenumber: phonenumber,
+            shoppingcartid: shoppingCartId
+          }
+          props.registerUser(user);
+          setFirstName("");
+          setLastName("");
+          setUserName("");
+          setPassword("");
+          setEmail("");
+          setPhonenumber("");
+          navigate("/")
+        } catch (e) {
+          console.log(e)
+        }
+    }
+
+    function handleOnClick() {
+      navigate("/login")
     }
 
     return ( 
@@ -56,8 +85,9 @@ const Register = (props) => {
                   <Form.Label>Phone Number</Form.Label>
                     <Form.Control onChange={e => setPhonenumber(e.target.value)} type="text" required />
                 </Form.Group>
-                <Button onSubmit={handleSubmit} type="submit">Submit</Button>
+                <Button type="submit">Submit</Button>
             </Form>
+            <Button onClick={handleOnClick}>Sign In</Button>
         </div>
      );
 }

@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
     const [userName, setUserName] = useState('')
     const [userPassword, setUserPassword] = useState('')
+    const navigate = useNavigate()
 
-    
-    
-    
     const handleSubmit = async event => {
-        console.log('username ',userName)
+        console.log('username ', userName)
         console.log(userPassword)
         event.preventDefault();
         
@@ -27,22 +26,25 @@ const Login = (props) => {
         console.log(results.data.token)
     };
 
-    
+    function handleOnClick(){
+        navigate("/register")
+    }
+
     return ( 
+        <div>
             <Form className="LogIn" onSubmit={handleSubmit}>
                 <Form.Group controlId="username">
                   <Form.Label>User Name</Form.Label>
                     <Form.Control onChange={e => setUserName(e.target.value)} type="text" required />
-                </Form.Group>
-                
+                </Form.Group>   
                 <Form.Group controlId="password">
                   <Form.Label>Password</Form.Label>
                     <Form.Control onChange={e => setUserPassword(e.target.value)} type="text" required />
                 </Form.Group>
                 <Button type="submit">Submit</Button>
             </Form>
-
-
+            <Button onClick={handleOnClick}>Register</Button>
+        </div>
      );
 }
  

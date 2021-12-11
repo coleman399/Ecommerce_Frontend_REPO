@@ -24,16 +24,14 @@ const Home = (props) => {
       <div className="container">
         <div className='row'>
           <nav className='col-lg-12'>
-              <NavBar />
+              <NavBar logout={props.logout}/>
           </nav>
         </div>
       </div>
       <div className='container'>
         <div className="row">
-          <div className="col-lg-6">
-            {plants.map(plant => <Plant plantId={plant.plantId} plantName={plant.name} plantPrice={plant.price} plantDescription={plant.description} plantCategory={plant.category} plantReview={plant.review}/>)}
-          </div>
-          <div className="col-lg-6">
+          <div className="col-lg-12">
+            {plants.map(plant => <Plant user={props.user} plantId={plant.plantId} plantName={plant.name} plantPrice={plant.price} plantDescription={plant.description} plantCategory={plant.category} plantReview={plant.review}/>)}
           </div>
         </div>
       </div>
