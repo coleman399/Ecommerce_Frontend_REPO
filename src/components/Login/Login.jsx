@@ -8,31 +8,28 @@ const Login = (props) => {
     const [userPassword, setUserPassword] = useState('')
     const navigate = useNavigate()
 
-    const handleSubmit = async event => {
-        console.log('username ', userName)
-        console.log(userPassword)
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        
-        let results = await axios ({
+        let results = await axios({
             method: 'POST',
             url: "https://localhost:44394/api/authentication/login",
             data: { 
-                username: userName,
+                userName: userName,
                 password: userPassword
             },
         })
         localStorage.setItem('token', results.data.token);
-        window.location.href = "/";
         console.log(results.data.token)
-    };
-
+        window.location.href = "/";
+    }
+    
     function handleOnClick(){
         navigate("/register")
     }
 
     return ( 
         <div>
-            <Form className="LogIn" onSubmit={handleSubmit}>
+            <Form className="Login" onSubmit={handleSubmit}>
                 <Form.Group controlId="username">
                   <Form.Label>User Name</Form.Label>
                     <Form.Control onChange={e => setUserName(e.target.value)} type="text" required />

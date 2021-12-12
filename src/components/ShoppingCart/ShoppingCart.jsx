@@ -4,39 +4,10 @@ import axios from "axios";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 
 const ShoppingCart = (props) => {
-  const [user, setUser] = useState()
-  const [shoppingCart, setShoppingCart] = useState();
   const [state, setState] = useState({
       isPaneOpen: false,
       isPaneOpenLeft: false,
   });
-  
-  useEffect(() => {
-    getUser();
-    getShoppingCart();
-  },[]);
-
-  const getUser = async () => {
-    const jwtToken = localStorage.getItem("token");
-      var results = await axios({
-        method: 'GET',
-        url: 'https://localhost:44394/api/examples/user',
-        headers: {Authorization: `Bearer ${jwtToken}`},
-      });
-      setUser(results.data)
-    }
-  
-  const getShoppingCart = async () => {
-    try {
-      var results = await axios ({
-        method : "GET",
-        url : "https://localhost:44394/api/shoppingcart/" + user.shoppingCartId,
-      })
-      setShoppingCart(results.data)
-    } catch (e) {
-      console.log(e)
-    }  
-  }
   
   return (
       <div>

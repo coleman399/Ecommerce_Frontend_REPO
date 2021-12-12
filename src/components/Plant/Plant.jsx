@@ -1,68 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Button } from "react-bootstrap"
-import axios from "axios";
-import { useState, useEffect } from "react";
 
 function Plant(props) {
   let formattedPrice = new Intl.NumberFormat("en-US", {
     style: 'currency',
     currency: 'USD'
   }).format(props.plantPrice);
-  const [shoppingCart, setShoppingCart] = useState();
-  const [product, setProduct] = useState(); 
-
-  useEffect(() => {
-    getShoppingCart();
-    getProduct();
-  },[]);
-
-  const getShoppingCart = async () => { 
-    var results = await axios ({
-      method : "GET",
-      url : "https://localhost:44394/api/shoppingcart/" + props.user.shoppingCartId,
-    })
-    setShoppingCart(results.data)
-    console.log(results.data)
-  }
-
-  const getProduct = async () => {
-    var results = await axios ({
-      method : "GET",
-      url : "https://localhost:44394/api/product/" + shoppingCart.productId,
-    })
-    setProduct(results.data)
-    console.log(results.data)  
-  }
 
   function handleOnClick() {
-    if (product.plantId==props.plantId) {
-      const updateProduct = async () => {
-        var results = await axios ({
-          method: "PUT",
-          url: "https://localhost:44394/api/product/" + product,
-          data: {
-            "PlantId": product.plantId,
-            "Quantity": product.Quantity + 1 
-          }
-        });
-        setProduct(results)
-      }
-      updateProduct();
-    } else {
-      const postProduct = async (props) => {
-        var results = await axios ({
-          method: "POST",
-          url: "https://localhost:44394/api/product/",
-          data: {
-            "PlantId": props.plantId,
-            "Quantity": 1
-          }
-        })
-        setProduct(results)
-      }
-      postProduct();
-    }
+    props.getShoppingCart(props.user)
+    props.shoppingCart.map(shoppingCart => {
+      if (shoppingCart.plantId === props.plantId){
+        let plant = {
+          plantId: props.plantId,
+          quantity: shoppingCart.quantity + 1,
+          userId: props.user.userId
+        }
+        props.addToShoppingCart(plant)
+      }      
+    })    
   }
+
 
   return (
     <div className="container">
@@ -76,7 +34,7 @@ function Plant(props) {
                         <h6>Price:</h6> {formattedPrice}
                         <h6>Description:</h6> {props.plantDescription}
                         <h6>Category:</h6> {props.plantCategory}
-                        <h6>Average Rating:</h6>
+                        <h6>Average Rating:</h6> {props.plantRating}
                         <h6>Reviews:</h6> {props.plantReview}
                       </Card.Text>
                     <Button onClick={handleOnClick}variant="primary">Buy</Button>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+
 
 const Register = (props) => {
     const [firstname, setFirstName] = useState()
@@ -11,36 +11,19 @@ const Register = (props) => {
     const [password, setPassword] = useState()
     const [email, setEmail] = useState()
     const [phonenumber, setPhonenumber] = useState()
-    const [shoppingCartId, setShoppingCartId] = useState()
     const navigate = useNavigate()
-
-    const postShoppingCart = async () => {
-      var results = await axios ({
-        method : "POST",
-        url : "https://localhost:44394/api/shoppingcart",
-        data: {
-          productId: null,
-        }
-      })
-      console.log(results.data.shoppingCartId);
-      setShoppingCartId(results.data.shoppingCartId);  
+    let user = {
+      firstname: firstname,
+      lastname: lastname,
+      username: username,
+      password: password,
+      email: email,
+      phonenumber: phonenumber,
     }
-    useEffect(() => {
-      postShoppingCart();
-    },[]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         try{
-          let user = {
-            firstname: firstname,
-            lastname: lastname,
-            username: username,
-            password: password,
-            email: email,
-            phonenumber: phonenumber,
-            shoppingcartid: shoppingCartId
-          }
           props.registerUser(user);
           setFirstName("");
           setLastName("");
@@ -55,7 +38,7 @@ const Register = (props) => {
     }
 
     function handleOnClick() {
-      navigate("/login")
+      navigate("/")
     }
 
     return ( 
