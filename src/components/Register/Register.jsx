@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Register = (props) => {
     const [firstname, setFirstName] = useState()
@@ -9,24 +11,34 @@ const Register = (props) => {
     const [password, setPassword] = useState()
     const [email, setEmail] = useState()
     const [phonenumber, setPhonenumber] = useState()
+    const navigate = useNavigate()
     let user = {
-        firstname: firstname,
-        lastname: lastname,
-        username: username,
-        password: password,
-        email: email,
-        phonenumber: phonenumber
+      firstname: firstname,
+      lastname: lastname,
+      username: username,
+      password: password,
+      email: email,
+      phonenumber: phonenumber,
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.registerUser(user);
-        setFirstName("");
-        setLastName("");
-        setUserName("");
-        setPassword("");
-        setEmail("");
-        setPhonenumber("");
+        try{
+          props.registerUser(user);
+          setFirstName("");
+          setLastName("");
+          setUserName("");
+          setPassword("");
+          setEmail("");
+          setPhonenumber("");
+          navigate("/")
+        } catch (e) {
+          console.log(e)
+        }
+    }
+
+    function handleOnClick() {
+      navigate("/")
     }
 
     return ( 
@@ -56,8 +68,9 @@ const Register = (props) => {
                   <Form.Label>Phone Number</Form.Label>
                     <Form.Control onChange={e => setPhonenumber(e.target.value)} type="text" required />
                 </Form.Group>
-                <Button onSubmit={handleSubmit} type="submit">Submit</Button>
+                <Button type="submit">Submit</Button>
             </Form>
+            <Button onClick={handleOnClick}>Sign In</Button>
         </div>
      );
 }

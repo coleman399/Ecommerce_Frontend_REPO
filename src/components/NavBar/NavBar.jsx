@@ -6,14 +6,22 @@ import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
+import Button from "react-bootstrap/Button"
 
 const NavBar = ({ user }) => {
+
+  function handleOnClick() {
+    localStorage.clear();
+    window.location.href = "/";
+  }
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
       <SearchBar />
       <ShoppingCart />
       <SellPlant />
+      <Button onClick={handleOnClick}>Logout</Button>
         <Container>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

@@ -1,36 +1,64 @@
 import React, { Component } from 'react';
 import Login from './Login/Login';
-import Register from './Register/Register';
 import Home from './Home/Home';
-import NavBar from './NavBar/NavBar';
-import NotFound from './NotFound/NotFound'
-import SearchBar from './SearchBar/SearchBar';
-import SellPlant from './SellPlant/SellPlant';
-import ShoppingCart from './ShoppingCart/ShoppingCart';
-import jwt_decode from "jwt-decode";
+import Register from './Register/Register';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Navigate
 } from "react-router-dom";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: "",
+            user: null,
+            plants: [],
+            reviews: [],
+            purchases: [],
+            shoppingCart: []
         }
+    }
+    
+    componentDidUpdate() {
+        try {
+            if (this.state.user == null){
+            //Maybe componentWillMount? I could change entire app to function to use useEffect and add [user] tp dependancies
+                this.getUser(); 
+            //For some reason this is causing an infinite loop. Need Help!
+            }
+            this.getPlants();
+            this.getReviews();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+    getUser = async () => {
+        const jwtToken = localStorage.getItem("token");
+        try {
+            var results = await axios({
+                method: 'GET',
+                url: 'https://localhost:44394/api/examples/user',
+                headers: {Authorization: `Bearer ${jwtToken}`},
+            });
+            console.log(results.data)
+            this.setState({
+                user: results.data
+            })
+        } catch (e) {
+            console.log(e);
+        }    
     }
 
     logout = () => {
         localStorage.clear();
         window.location.href = "/";
     }
-
-    registerUser = async (user) => {await axios.get({
+    
+    registerUser = async (user) => {await axios ({
         method: "POST",
         url: 'https://localhost:44394/api/authentication',
         data: {
@@ -39,57 +67,105 @@ class App extends Component {
             username: user.username,
             password: user.password,
             email: user.email,
-            phonenumber: user.phonenumber
+            phonenumber: user.phonenumber,
         },
     });
-    console.log(user)
+    console.log(user);
     }
 
-    getUser = async (user) => {
-        const jwtToken = localStorage.getItem("token");
-        var results = await axios({
-        method: 'get',
-        url: 'https://localhost:44394/api/examples/user/',
-        headers: {Authorization: `Bearer ${jwtToken}`},
+    addPlant = async (plant) => {await axios ({
+      method: 'POST',
+      url: "https://localhost:44394/api/plant",
+      data : {
+        name: plant.name,
+        price: plant.price,
+        description: plant.description,
+        rating: plant.rating,
+        userId: plant.userId
+      }
+    })
+    console.log(plant)
+    this.getPlants()
+    };
+
+    getPlants = async () => {
+        var results = await axios ({
+            method: 'GET',
+            url : "https://localhost:44394/api/plant",
+        })
+        console.log(results.data);
+        this.setState({ 
+            plants: results.data
         });
-    console.log(results)
     }
-    
-    componentDidMount() {
-        const jwtToken = localStorage.getItem("token");
-        try {
-            const user = jwt_decode(jwtToken);
-            this.setState({
-                user
-            })
-        } catch (error) {
-            console.log(error);
+
+    addToShoppingCart = async (plant) => {await axios ({
+        method : 'POST',
+        url : "https://localhost:44394/api/shoppingcart",
+        data : {
+            plantId: plant.plantId,
+            quantity: plant.quantity,
+            userId: plant.userId
         }
+    })
+    console.log(plant)
     }
+
+    getShoppingCart = async (user) => {
+        var results = await axios ({
+        method : 'GET',
+        url : 'https://localhost:44394/api/shoppingcart',
+        data : {
+            UserId: user.id
+        }
+    })
+    console.log(results.data);
+    this.setState({
+        shoppingCart: results.data
+    })
+    }
+
+    getReviews = async () => {
+        var results = await axios ({
+            method: 'GET',
+            url: 'https://localhost:44394/api/review'
+        })
+        this.setState({
+            reviews: results.data
+        });
+        console.log(results.data)
+    } 
     
     render() {
         return (
             <Router>
                 <Routes>
-                    {console.log(this.state.user)}
-                    <Route path="/home" element={() => {
-                        if (!this.state.user){
-                            return <Navigate to="/login"/>
-                        } else {
-                            return <Home user={this.state.user}/>
+                    <Route exact path="/" element={
+                        !this.state.user ?
+                            <Login 
+                                login={this.login} 
+                            />
+                        :
+                            <Home 
+                                plants={this.state.plants}
+                                getShoppingCart={this.getShoppingCart}
+                                addPlant={this.addPlant} 
+                                getPlants={this.getPlants}
+                                addToShoppingCart={this.addToShoppingCart}
+                                logout={this.logout} 
+                            />       
                         }
-                    }}
                     />
-                    <Route path="/home" element={<Home NavBar={<NavBar />} registerUser={this.registerUser} SearchBar={<SearchBar />} ShoppingCart= {<ShoppingCart />} SellPlant={<SellPlant />}/>}/>
-                    <Route path="/register" element={<Register />}/>
-                    <Route path="/login" element={<Login registerUser={this.registerUser}/>}/>
-                    <Route path="/logout">{this.logout}</Route>
-                    <Route path="*" element={<NotFound />}/>
+                    <Route path="/register" element={
+                        <Register 
+                            registerUser={this.registerUser}
+                        />}
+                    />          
+                    {/* <Route path="*" element={<NotFound />}/> */}
                 </Routes>
             </Router>
         )
     }   
 }
 
- 
 export default App;

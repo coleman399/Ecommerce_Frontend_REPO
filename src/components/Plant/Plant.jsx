@@ -1,96 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Card, Button } from "react-bootstrap"
 
 function Plant(props) {
+  let formattedPrice = new Intl.NumberFormat("en-US", {
+    style: 'currency',
+    currency: 'USD'
+  }).format(props.plantPrice);
+
+  function handleOnClick() {
+    props.getShoppingCart(props.user)
+    props.shoppingCart.map(shoppingCart => {
+      if (shoppingCart.plantId === props.plantId){
+        let plant = {
+          plantId: props.plantId,
+          quantity: shoppingCart.quantity + 1,
+          userId: props.user.userId
+        }
+        props.addToShoppingCart(plant)
+      }      
+    })    
+  }
+
+
   return (
     <div className="container">
       <div className="row">
         <div className="col-lg-6">
-          <div>
-            <h4>Name: Plant</h4>
-            <h4>Price: 1</h4>
-            <h4>Description:</h4>
-            <h4>Category:</h4>
-            <h4>Average Rating:</h4>
-            <h4>Reviews:</h4>
-          </div>
-          <form>
-            <button type="submit">Leave a review?</button>
-            <div class="form-group">
-              <label for="exampleFormControlTextarea1">
-                How was your experience?
-              </label>{" "}
-              <br />
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio1"
-                  value="option1"
-                />
-                <label className="form-check-label" for="inlineRadio1">
-                  1
-                </label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio2"
-                  value="option2"
-                />
-                <label className="form-check-label" for="inlineRadio2">
-                  2
-                </label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio2"
-                  value="option2"
-                />
-                <label className="form-check-label" for="inlineRadio2">
-                  3
-                </label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio2"
-                  value="option2"
-                />
-                <label className="form-check-label" for="inlineRadio2">
-                  4
-                </label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio2"
-                  value="option2"
-                />
-                <label className="form-check-label" for="inlineRadio2">
-                  5
-                </label>
-              </div>
-              <textarea
-                class="form-control"
-                id="exampleFormControlTextarea1"
-                rows="3"
-              ></textarea>
-            </div>
-          </form>
+         <Card style={{ width: '18rem' }}>
+              <Card.Img variant="top" src="holder.js/100px180" />
+                <Card.Body>
+                    <Card.Title><strong>{props.plantName}</strong></Card.Title>
+                      <Card.Text>
+                        <h6>Price:</h6> {formattedPrice}
+                        <h6>Description:</h6> {props.plantDescription}
+                        <h6>Category:</h6> {props.plantCategory}
+                        <h6>Average Rating:</h6> {props.plantRating}
+                        <h6>Reviews:</h6> {props.plantReview}
+                      </Card.Text>
+                    <Button onClick={handleOnClick}variant="primary">Buy</Button>
+                </Card.Body>
+          </Card>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default Plant;
+
