@@ -42,7 +42,7 @@ const Login = (props) => {
                 </Form.Group>
                 <Button type="submit">Submit</Button>
             </Form>
-            <Button onClick={handleOnClick}>Register</Button>
+            <Button onClick={()=>handleOnClick()}>Register</Button>
         </div>
      );
 }

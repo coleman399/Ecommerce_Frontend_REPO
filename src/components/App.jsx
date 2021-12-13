@@ -9,28 +9,30 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
+import jwtDecode from "jwt-decode"
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: null,
+            user: '',
             plants: [],
             reviews: [],
             purchases: [],
-            shoppingCart: []
+            shoppingCart: [],
+            toggle:false
         }
     }
     
-    componentDidUpdate() {
+    componentDidMount() {
+        const jwt = localStorage.getItem('token')
         try {
-            if (this.state.user == null){
             //Maybe componentWillMount? I could change entire app to function to use useEffect and add [user] tp dependancies
-                this.getUser(); 
             //For some reason this is causing an infinite loop. Need Help!
-            }
-            this.getPlants();
-            this.getReviews();
+            const user = jwtDecode(jwt)
+            this.setState({user})
+            // this.getReviews();
+            
         } catch (error) {
             console.log(error);
         }
@@ -85,19 +87,13 @@ class App extends Component {
       }
     })
     console.log(plant)
-    this.getPlants()
+    this.setState({
+        toggle:!this.state.toggle
+    })
+
     };
 
-    getPlants = async () => {
-        var results = await axios ({
-            method: 'GET',
-            url : "https://localhost:44394/api/plant",
-        })
-        console.log(results.data);
-        this.setState({ 
-            plants: results.data
-        });
-    }
+    
 
     addToShoppingCart = async (plant) => {await axios ({
         method : 'POST',
@@ -125,16 +121,16 @@ class App extends Component {
     })
     }
 
-    getReviews = async () => {
-        var results = await axios ({
-            method: 'GET',
-            url: 'https://localhost:44394/api/review'
-        })
-        this.setState({
-            reviews: results.data
-        });
-        console.log(results.data)
-    } 
+    // getReviews = async () => {
+    //     var results = await axios ({
+    //         method: 'GET',
+    //         url: 'https://localhost:44394/api/review'
+    //     })
+    //     this.setState({
+    //         reviews: results.data
+    //     });
+    //     console.log(results.data)
+    // } 
     
     render() {
         return (
@@ -147,12 +143,14 @@ class App extends Component {
                             />
                         :
                             <Home 
-                                plants={this.state.plants}
+                                // plants={this.state.plants}
                                 getShoppingCart={this.getShoppingCart}
                                 addPlant={this.addPlant} 
-                                getPlants={this.getPlants}
+                                // getPlants={this.getPlants}
                                 addToShoppingCart={this.addToShoppingCart}
                                 logout={this.logout} 
+                                toggle={this.state.toggle}
+                                user={this.state.user}
                             />       
                         }
                     />

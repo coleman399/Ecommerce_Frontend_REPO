@@ -13,7 +13,7 @@ const SellPlant = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  function handleOnClick() {
+  const  handleOnClick = () => {
     let plant = {
       plantName: plantName,
       plantPrice: plantPrice,
@@ -27,11 +27,11 @@ const SellPlant = (props) => {
   }
 
   return (
-    <>
-      <Button variant="primary" onClick={handleShow}>
+    <div>
+      <Button variant="primary" onClick={()=>handleShow()}>
         Sell a Plant
       </Button>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={()=>handleClose()}>
         <Modal.Header closeButton>
           <Modal.Title>Plant Details:</Modal.Title>
         </Modal.Header>
@@ -53,22 +53,22 @@ const SellPlant = (props) => {
               <Form.Label>Plant Category:</Form.Label>
               <Form.Select aria-label="category">
                 <option>Select a category:</option>
-                <option value={setPlantCategory("Indoor")}>Indoor</option>
-                <option value={setPlantCategory("Outdoor")}>Outdoor</option>
+                <option value={()=>setPlantCategory("Indoor")}>Indoor</option>
+                <option value={()=>setPlantCategory("Outdoor")}>Outdoor</option>
               </Form.Select>{" "}
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={()=>handleClose()}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleOnClick}>
+          <Button variant="primary" onClick={()=>handleOnClick()}>
             Submit Plant
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 
