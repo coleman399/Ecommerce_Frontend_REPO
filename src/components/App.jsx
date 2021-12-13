@@ -27,8 +27,6 @@ class App extends Component {
     componentDidMount() {
         const jwt = localStorage.getItem('token')
         try {
-            //Maybe componentWillMount? I could change entire app to function to use useEffect and add [user] tp dependancies
-            //For some reason this is causing an infinite loop. Need Help!
             const user = jwtDecode(jwt)
             this.setState({user})
             // this.getReviews();
@@ -150,7 +148,8 @@ class App extends Component {
                                 logout={this.logout} 
                                 toggle={this.state.toggle}
                                 user={this.state.user}
-                                reviews={this.getReviews}
+                                getReviews={this.getReviews}
+                                reviews={this.state.reviews}
                             />       
                         }
                     />
