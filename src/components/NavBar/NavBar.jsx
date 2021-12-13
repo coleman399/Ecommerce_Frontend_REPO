@@ -18,7 +18,7 @@ const NavBar = (props) => {
   return (
     <div>
       <Navbar bg="light" expand="lg">
-      <SearchBar />
+      <SearchBar toggle={props.toggle} plants={props.plants} getPlants={props.getPlants}/>
       <ShoppingCart />
       <SellPlant user={props.user} addPlant={props.addPlant}/>
       <Button onClick={()=>handleOnClick()}>Logout</Button>

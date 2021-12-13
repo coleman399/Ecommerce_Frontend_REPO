@@ -30,6 +30,8 @@ const Home = (props) => {
                 user={props.user} 
                 logout={props.logout} 
                 addPlant={props.addPlant}
+                plants={props.plants}
+                toggle={props.toggle}
               />
           </nav>
         </div>

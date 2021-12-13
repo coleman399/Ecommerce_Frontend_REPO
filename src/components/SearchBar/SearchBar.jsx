@@ -1,35 +1,55 @@
-import React, { Component } from 'react';
-import './SearchBar.css'
+import React, {useState, useEffect} from 'react';
+import './SearchBar.css';
+import axios from 'axios';
 
-class SearchBar extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            search: ''
-        }
+
+const SearchBar=(props)=>{
+    const [filteredPlants, setFilteredPlants] = useState([]);
+    const [userInput, setUserInput] =useState("");
+    const [plants,setPlants] = useState([])
+    const [searchResults, setSearchResults] =useState([]);
+
+    useEffect(() =>{
+      getPlants()
+    },[props.toggle])
+  
+    const getPlants = async () => {
+          var results = await axios ({
+              method: 'GET',
+              url : "https://localhost:44394/api/plant",
+          })
+          console.log(results.data);
+          setPlants(results.data)
+      }    
+    
+    const handleSearch = () => {
+        plants.filter((plant) => {
+            if(plant.name.includes(userInput)){
+            
+             setSearchResults(plant)
+             
+              
+            }
+        });
+        console.log(searchResults)
+        setFilteredPlants(searchResults);
     }
 
-    handleChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
 
-    handleSubmit() {
-        this.props.startSearch(this.state.search)
-        this.setState({
-            search: ''
-        })
-    }
-
-    render() {
-        return (
-            <div className = "searchbar">
-                <input value = {this.state.search} name = "search" onChange = {this.handleChange}></input>
-                <button className = "searchbutton" onClick = {() => this.handleSubmit(this.state.search)}>&#128064;</button>
-            </div>
-        )
-    }
-}
-
+    return (
+            <div><div className = "searchbar">
+            <input type = "text" onChange = {(event) =>setUserInput(event.target.value)} />
+            <button className = "searchbutton" onClick = {()=>handleSearch()}>&#128064;</button>
+        
+        {/* <div className="searchbar"
+            {...filteredPlants.map((plant)=>{ 
+            return(
+                <div key={plant.id}>
+                    {plant.name}
+                </div>
+                )})} /> */}
+        </div></div>
+    )
+}                 
+                    
 export default SearchBar;

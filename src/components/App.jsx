@@ -145,8 +145,7 @@ class App extends Component {
                             <Home 
                                 // plants={this.state.plants}
                                 getShoppingCart={this.getShoppingCart}
-                                addPlant={this.addPlant} 
-                                // getPlants={this.getPlants}
+                                addPlant={this.addPlant}
                                 addToShoppingCart={this.addToShoppingCart}
                                 logout={this.logout} 
                                 toggle={this.state.toggle}
