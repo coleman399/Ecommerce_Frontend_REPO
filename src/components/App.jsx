@@ -75,25 +75,25 @@ class App extends Component {
     console.log(user);
     }
 
-    addPlant = async (plant) => {await axios ({
-      method: 'POST',
-      url: "https://localhost:44394/api/plant",
-      data : {
-        name: plant.name,
-        price: plant.price,
-        description: plant.description,
-        rating: plant.rating,
-        userId: plant.userId
-      }
-    })
+    addPlant = async (plant) => {
+        var results = await axios ({
+            method: 'POST',
+            url: "https://localhost:44394/api/plant",
+            data : {
+                name: plant.plantName,
+                price: plant.plantPrice,
+                description: plant.plantDescription,
+                rating: plant.plantRating,
+                category: plant.plantCategory,
+                userId: plant.userId
+            }
+        })
+    console.log(results.data)   
     console.log(plant)
     this.setState({
         toggle:!this.state.toggle
     })
-
     };
-
-    
 
     addToShoppingCart = async (plant) => {await axios ({
         method : 'POST',
@@ -121,16 +121,16 @@ class App extends Component {
     })
     }
 
-    // getReviews = async () => {
-    //     var results = await axios ({
-    //         method: 'GET',
-    //         url: 'https://localhost:44394/api/review'
-    //     })
-    //     this.setState({
-    //         reviews: results.data
-    //     });
-    //     console.log(results.data)
-    // } 
+    getReviews = async () => {
+        var results = await axios ({
+            method: 'GET',
+            url: 'https://localhost:44394/api/review'
+        })
+        this.setState({
+            reviews: results.data
+        });
+        console.log(results.data)
+    } 
     
     render() {
         return (
@@ -151,6 +151,7 @@ class App extends Component {
                                 logout={this.logout} 
                                 toggle={this.state.toggle}
                                 user={this.state.user}
+                                reviews={this.getReviews}
                             />       
                         }
                     />

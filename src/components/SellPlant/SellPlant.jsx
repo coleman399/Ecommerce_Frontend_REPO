@@ -8,7 +8,7 @@ const SellPlant = (props) => {
   const [plantName, setPlantName] = useState();
   const [plantPrice, setPlantPrice] = useState();
   const [plantDescription, setPlantDescription] = useState();
-  const [plantCategory, setPlantCategory] = useState();
+  const [plantCategory, setPlantCategory] = useState("Outdoor");
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -43,7 +43,7 @@ const SellPlant = (props) => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="plantPrice">
               <Form.Label>Plant Price in Dollars:</Form.Label>
-              <Form.Control type="text" onChange={e => setPlantPrice(e.target.value)}required/>
+              <Form.Control type="text" onChange={e => setPlantPrice(parseInt(e.target.value))}required/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="plantDescription">
               <Form.Label>Plant Description:</Form.Label>

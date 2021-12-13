@@ -26,7 +26,11 @@ const Home = (props) => {
       <div className="container">
         <div className='row'>
           <nav className='col-lg-12'>
-              <NavBar logout={props.logout}/>
+              <NavBar 
+                user={props.user} 
+                logout={props.logout} 
+                addPlant={props.addPlant}
+              />
           </nav>
         </div>
       </div>
@@ -39,6 +43,7 @@ const Home = (props) => {
                 shoppingCart={props.shoppingCart}
                 user={props.user} 
                 getShoppingCart={props.getShoppingCart} 
+                getReviews={props.getReviews}
                 addToShoppingCart={props.addToShoppingCart} 
                 plantId={plant.plantId} 
                 plantName={plant.name} 
@@ -47,7 +52,7 @@ const Home = (props) => {
                 plantCategory={plant.category} 
                 plantReview={plant.review}
                 plantQuantity={plant.quantity}
-                plantRating={plant.rating} 
+                plantRating={plant.rating}    
               />)
             : 
               "No Plants"

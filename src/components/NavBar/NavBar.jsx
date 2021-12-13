@@ -8,9 +8,9 @@ import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 import Button from "react-bootstrap/Button"
 
-const NavBar = ({ user }) => {
+const NavBar = (props) => {
 
-  function handleOnClick() {
+  const handleOnClick= () => {
     localStorage.clear();
     window.location.href = "/";
   }
@@ -20,8 +20,8 @@ const NavBar = ({ user }) => {
       <Navbar bg="light" expand="lg">
       <SearchBar />
       <ShoppingCart />
-      <SellPlant />
-      <Button onClick={handleOnClick}>Logout</Button>
+      <SellPlant user={props.user} addPlant={props.addPlant}/>
+      <Button onClick={()=>handleOnClick()}>Logout</Button>
         <Container>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
