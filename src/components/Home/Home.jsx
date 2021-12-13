@@ -9,17 +9,19 @@ const Home = (props) => {
   const [plants,setPlants] = useState([])
 
   useEffect(() =>{
-    getPlants()
+    getPlants();
   },[props.toggle])
 
   const getPlants = async () => {
-        var results = await axios ({
-            method: 'GET',
-            url : "https://localhost:44394/api/plant",
-        })
-        console.log(results.data);
-        setPlants(results.data)
-    }
+    var results = await axios ({
+        method: 'GET',
+        url : "https://localhost:44394/api/plant",
+    })
+    console.log(results.data);
+    setPlants(results.data)
+  }
+
+
 
   return (
     <div>
@@ -50,9 +52,10 @@ const Home = (props) => {
                 plantPrice={plant.price} 
                 plantDescription={plant.description} 
                 plantCategory={plant.category} 
-                plantReview={plant.review}
+                plantReviews={plant.reviews}
                 plantQuantity={plant.quantity}
-                plantRating={plant.rating}    
+                plantRating={plant.rating}
+                toggle={props.toggle}    
               />)
             : 
               "No Plants"
