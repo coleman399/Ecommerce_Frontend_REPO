@@ -22,9 +22,13 @@ class App extends Component {
         }
     }
     
-    componentDidMount() {
+    componentDidUpdate() {
         try {
-            // this.getUser(); For some reason this is causing an infinite loop. Need Help!
+            if (this.state.user == null){
+            //Maybe componentWillMount? I could change entire app to function to use useEffect and add [user] tp dependancies
+                this.getUser(); 
+            //For some reason this is causing an infinite loop. Need Help!
+            }
             this.getPlants();
             this.getReviews();
         } catch (error) {

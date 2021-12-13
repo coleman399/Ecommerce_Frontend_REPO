@@ -18,6 +18,8 @@ const Login = (props) => {
                 password: userPassword
             },
         })
+        setUserName('');
+        setUserPassword('');
         localStorage.setItem('token', results.data.token);
         console.log(results.data.token)
         window.location.href = "/";
