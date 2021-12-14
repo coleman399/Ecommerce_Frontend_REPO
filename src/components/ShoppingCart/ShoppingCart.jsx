@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 
@@ -7,6 +7,10 @@ const ShoppingCart = (props) => {
   const [plantNames, setPlantNames] = useState([]);
   const [plantQuantities, setPlantQuantities] = useState([]);
   const [plantPrices, setPlantPrices] = useState([]);
+
+  useEffect(() =>{
+    props.getShoppingCart(props.user.id);
+  },[])
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
