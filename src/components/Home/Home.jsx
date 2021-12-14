@@ -52,6 +52,9 @@ const Home = (props) => {
                 addPlant={props.addPlant}
                 plants={props.plants}
                 toggle={props.toggle}
+                getShoppingCart={props.getShoppingCart}
+                shoppingCart={props.shoppingCart}
+                user={props.user}
               />
           </nav>
         </div>
@@ -76,7 +79,8 @@ const Home = (props) => {
                 plantReviews={plant.reviews}
                 plantQuantity={plant.quantity}
                 plantRating={plant.rating}
-                toggle={props.toggle}    
+                toggle={props.toggle}
+                updateShoppingCart={props.updateShoppingCart} 
               />)
             : 
               "No Plants"
@@ -100,7 +104,8 @@ const Home = (props) => {
                 plantReviews={plant.reviews}
                 plantQuantity={plant.quantity}
                 plantRating={plant.rating}
-                toggle={props.toggle}    
+                toggle={props.toggle}
+                updateShoppingCart={props.updateShoppingCart} 
               />)
             : 
               "No Plants"

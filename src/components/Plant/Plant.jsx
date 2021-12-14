@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Form, Card, Button } from "react-bootstrap"
 import Modal from "react-bootstrap/Modal"
 
@@ -14,23 +15,33 @@ function Plant(props) {
 
   useEffect(() => {
     props.getReviews();
+    props.getShoppingCart(props.user);
   },[props.toggle])
 
-  const handleOnClick = () => {
-    props.getShoppingCart(props.user)
-    props.shoppingCart.map(shoppingCart => {
-      if (shoppingCart.plantId == props.plantId){
-        let plant = {
-          plantId: props.plantId,
-          quantity: shoppingCart.quantity + 1,
-          userId: props.user.userId
+  const buyOnClick = () => {
+    if (props.shoppingCart.length === 0) {
+      var plant = {
+        plantId: props.plantId,
+        quantity: 1,
+        user: props.user.id
+      }
+      props.addToShoppingCart(plant); 
+    } else {
+      props.shoppingCart.map(shoppingcart => {
+        if(shoppingcart.plantId === props.plantId){
+          var plant = {
+            plantId: props.plantId,
+            plantQuantity: shoppingcart.quantity+1,
+            userId: props.user.id
+          }
         }
-        props.addToShoppingCart(plant)
-      }      
-    })    
-  }
+        props.updateShoppingCart(plant); 
+      })
+    }
+    props.getShoppingCart(props.user);
+  }    
 
-  const onClick = () => {
+  const reviewOnClick = () => {
     
   }
 
@@ -52,8 +63,8 @@ function Plant(props) {
                           {props.plantReviews.map(review => review.reviewText)}
                         </div> */}
                       </Card.Text>
-                    <Button onClick={handleOnClick}variant="primary">Buy</Button>
-                    <Button onClick={onClick}variant="primary">Leave a Review</Button>
+                    <Button onClick={()=>buyOnClick()}variant="primary">Buy</Button>
+                    <Button onClick={()=>reviewOnClick()}variant="primary">Leave a Review</Button>
                 </Card.Body>
           </Card>
         {/* <Modal show={show} onHide={()=>handleClose()}>

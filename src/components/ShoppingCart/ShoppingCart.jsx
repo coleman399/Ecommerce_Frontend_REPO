@@ -1,32 +1,49 @@
-import React, { useState, useEffect } from "react";
-import SlidingPane from "react-sliding-pane";
-import axios from "axios";
+import React, { useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 
 const ShoppingCart = (props) => {
-  const [state, setState] = useState({
-      isPaneOpen: false,
-      isPaneOpenLeft: false,
-  });
-  
+  const [show, setShow] = useState(false);
+  const [plantNames, setPlantNames] = useState([]);
+  const [plantQuantities, setPlantQuantities] = useState([]);
+  const [plantPrices, setPlantPrices] = useState([]);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => {
+    setShow(true);
+    props.shoppingCart.map(shoppingcart =>{
+      setPlantNames(shoppingcart.plant.name);
+      setPlantQuantities(shoppingcart.quantity);
+      let formattedPrice = new Intl.NumberFormat("en-US", {
+        style: 'currency',
+        currency: 'USD'
+      }).format(shoppingcart.plant.price);
+      setPlantPrices(formattedPrice);
+    })
+  }
+
   return (
       <div>
-        <button onClick={() => setState({ isPaneOpen: true })}>Shopping Cart</button>
-          <SlidingPane
-              className="some-custom-class"
-              overlayClassName="some-custom-overlay-class"
-              isOpen={state.isPaneOpen}
-              title="Users Shopping Cart"
-              subtitle="Optional subtitle."
-              onRequestClose={() => {
-                setState({ isPaneOpen: false });
-              }}
-          >
-            <div>
-
-            </div>
+        <Button variant="primary" onClick={()=>handleShow()}>
+          Shopping Cart
+        </Button>
+          <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Shopping Cart</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Plant Name: {plantNames}
             <br />
-          </SlidingPane>
+            Quantity: {plantQuantities}
+            <br/>
+            Price Per Unit: {plantPrices}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={()=>handleClose()}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
 };

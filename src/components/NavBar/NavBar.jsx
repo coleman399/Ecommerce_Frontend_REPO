@@ -16,14 +16,21 @@ const NavBar = (props) => {
   return (
     <div>
       <Navbar bg="light" expand="lg">
-      <ShoppingCart />
-      <SellPlant user={props.user} addPlant={props.addPlant}/>
-      <Button onClick={()=>handleOnClick()}>Logout</Button>
+        <ShoppingCart 
+          toggle={props.toggle} 
+          getShoppingCart={props.getShoppingCart}
+          shoppingCart={props.shoppingCart}
+          user={props.user}  
+        />
+        <SellPlant 
+          user={props.user} 
+          addPlant={props.addPlant}
+        />
+        <Button onClick={()=>handleOnClick()}>Logout</Button>
         <Container>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-            </Nav>
+          <Nav className="me-auto"/>
           </Navbar.Collapse>
         </Container>
       </Navbar>

@@ -86,9 +86,8 @@ class App extends Component {
                 userId: plant.userId
             }
         })
-    console.log(results.data);   
-    console.log(plant);
-    this.setToggle();
+        console.log(results.data);   
+        this.setToggle();
     };
 
     setToggle = () => {
@@ -97,30 +96,46 @@ class App extends Component {
         })
     }
 
-    addToShoppingCart = async (plant) => {await axios ({
-        method : 'POST',
-        url : "https://localhost:44394/api/shoppingcart",
-        data : {
-            plantId: plant.plantId,
-            quantity: plant.quantity,
-            userId: plant.userId
-        }
-    })
-    console.log(plant)
+    addToShoppingCart = async (plant) => {
+        var plantQuantity = parseInt(plant.quantity)
+        var results = await axios ({
+            method : 'POST',
+            url : "https://localhost:44394/api/shoppingcart",
+            data : {
+                plantId: plant.plantId,
+                quantity: plantQuantity,
+                userId: plant.user
+            }
+        })
+        console.log(results.data)
+        console.log(plant)
     }
 
     getShoppingCart = async (user) => {
         var results = await axios ({
-        method : 'GET',
-        url : 'https://localhost:44394/api/shoppingcart',
-        data : {
-            UserId: user.id
-        }
-    })
-    console.log(results.data);
-    this.setState({
-        shoppingCart: results.data
-    })
+            method : 'GET',
+            url : 'https://localhost:44394/api/shoppingcart',
+            data : {
+                userId: user.id
+            }
+        })
+        console.log(results.data);
+        this.setState({
+            shoppingCart: results.data
+        })
+    }
+
+    updateShoppingCart = async (plant) => {
+        var results = await axios ({
+            method: "PUT",
+            url: "https://localhost:44394/api/shoppingcart",
+            data: {
+                plantId: plant.plantId,
+                quantity: plant.plantQuantity + 1,
+                userId: plant.userId
+            }
+        })
+        console.log(results.data)
     }
 
     getReviews = async () => {
@@ -133,7 +148,7 @@ class App extends Component {
         });
         console.log(results.data)
     } 
-    
+
     render() {
         return (
             <Router>
@@ -145,7 +160,6 @@ class App extends Component {
                             />
                         :
                             <Home 
-                                // plants={this.state.plants}
                                 getShoppingCart={this.getShoppingCart}
                                 addPlant={this.addPlant}
                                 addToShoppingCart={this.addToShoppingCart}
@@ -155,6 +169,8 @@ class App extends Component {
                                 user={this.state.user}
                                 getReviews={this.getReviews}
                                 reviews={this.state.reviews}
+                                shoppingCart={this.state.shoppingCart}
+                                updateShoppingCart={this.updateShoppingCart}
                             />       
                         }
                     />
