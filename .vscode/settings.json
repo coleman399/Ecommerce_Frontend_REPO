@@ -3,6 +3,9 @@
         "firstname",
         "lastname",
         "phonenumber",
+        "resetbutton",
+        "searchbar",
+        "searchbutton",
         "shoppingcart",
         "shoppingcartid"
     ]

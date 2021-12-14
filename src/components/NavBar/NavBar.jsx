@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import SearchBar from "../SearchBar/SearchBar";
 import SellPlant from "../SellPlant/SellPlant";
 import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import Navbar from "react-bootstrap/Navbar";
@@ -18,7 +16,6 @@ const NavBar = (props) => {
   return (
     <div>
       <Navbar bg="light" expand="lg">
-      <SearchBar toggle={props.toggle} plants={props.plants} getPlants={props.getPlants}/>
       <ShoppingCart />
       <SellPlant user={props.user} addPlant={props.addPlant}/>
       <Button onClick={()=>handleOnClick()}>Logout</Button>

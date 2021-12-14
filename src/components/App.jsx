@@ -86,12 +86,16 @@ class App extends Component {
                 userId: plant.userId
             }
         })
-    console.log(results.data)   
-    console.log(plant)
-    this.setState({
-        toggle:!this.state.toggle
-    })
+    console.log(results.data);   
+    console.log(plant);
+    this.setToggle();
     };
+
+    setToggle = () => {
+        this.setState({
+            toggle: !this.state.toggle
+        })
+    }
 
     addToShoppingCart = async (plant) => {await axios ({
         method : 'POST',
@@ -147,6 +151,7 @@ class App extends Component {
                                 addToShoppingCart={this.addToShoppingCart}
                                 logout={this.logout} 
                                 toggle={this.state.toggle}
+                                setToggle={this.setToggle}
                                 user={this.state.user}
                                 getReviews={this.getReviews}
                                 reviews={this.state.reviews}
